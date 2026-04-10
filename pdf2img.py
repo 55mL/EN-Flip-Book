@@ -1,15 +1,26 @@
+# File: pdf2img.py
+# To convert PDF to PNG images using PyMuPDF (fitz)
+# Author: Neptune
+# Created: 2026-Apr-9
+# Last edited: 2026-Apr-9
+
+
+# before running this code, make sure to install the required library:
+# pip install PyMuPDF
+
+
+
 import fitz  
 import os
 
 def convert_pdf_to_images(pdf_path, output_folder, base_filename, dpi=300):
     """
-    ฟังก์ชันสำหรับแปลงไฟล์ PDF เป็นรูปภาพ PNG
     
-    พารามิเตอร์:
+    parameters:
     - pdf_path: ที่อยู่ของไฟล์ PDF ต้นฉบับ
     - output_folder: โฟลเดอร์ปลายทางที่ต้องการบันทึกรูปภาพ
     - base_filename: ชื่อไฟล์รูปภาพที่ต้องการตั้ง
-    - dpi: ความละเอียดของรูปภาพ (ยิ่งเยอะยิ่งชัด แนะนำที่ 300)
+    - dpi: ความละเอียดของรูปภาพ (ยิ่งเยอะยิ่งชัด แต่ไฟล์จะใหญ่ขึ้น)
     """
     
     # 1. ตรวจสอบและสร้างโฟลเดอร์ปลายทางหากยังไม่มี
@@ -24,7 +35,7 @@ def convert_pdf_to_images(pdf_path, output_folder, base_filename, dpi=300):
         print(f"เกิดข้อผิดพลาดในการเปิดไฟล์ PDF: {e}")
         return
 
-    # 3. ตั้งค่าความละเอียดของภาพ (Zoom factor)
+    # 3. ตั้งค่าความละเอียดของภาพ
     zoom = dpi / 72  # 72 คือ DPI มาตรฐาน
     mat = fitz.Matrix(zoom, zoom)
 
@@ -33,7 +44,7 @@ def convert_pdf_to_images(pdf_path, output_folder, base_filename, dpi=300):
         page = doc.load_page(page_num)
         pix = page.get_pixmap(matrix=mat)
 
-        # กำหนดชื่อไฟล์ (เพิ่มเลขหน้าลงไปเพื่อไม่ให้ชื่อซ้ำกัน)
+        # กำหนดชื่อไฟล์ (เพิ่มเลขหน้าอัตโนมัติ)
         image_name = f"{base_filename}_page_{page_num + 1}.png"
         
         # นำโฟลเดอร์ปลายทางและชื่อไฟล์มาต่อกันเป็น Path ที่สมบูรณ์
@@ -49,13 +60,13 @@ def convert_pdf_to_images(pdf_path, output_folder, base_filename, dpi=300):
 
 
 # 1. ระบุที่อยู่ของไฟล์ PDF ที่คุณต้องการแปลง (ต้องมีไฟล์นี้อยู่จริง)
-ไฟล์ต้นฉบับ = "63/63_jan_1.pdf"  
+sample_file = "68/68_may_2.pdf"  
 
 # 2. ระบุโฟลเดอร์ที่คุณต้องการให้รูปภาพไปอยู่ (ถ้าไม่มี โค้ดจะสร้างให้เอง)
-โฟลเดอร์เก็บรูป = "63/pages"  
+image_path_folder = "68/pages/may"  
 
-# 3. ระบุชื่อรูปภาพที่คุณต้องการตั้ง
-ชื่อรูปภาพที่ต้องการ = "63_jan_1_" 
+# 3. ระบุชื่อรูปภาพที่ต้องการตั้ง
+image_name = "68_may_2"
 
 # เรียกใช้งานฟังก์ชัน
-convert_pdf_to_images(ไฟล์ต้นฉบับ, โฟลเดอร์เก็บรูป, ชื่อรูปภาพที่ต้องการ, dpi=300)
+convert_pdf_to_images(sample_file, image_path_folder, image_name, dpi=300)
