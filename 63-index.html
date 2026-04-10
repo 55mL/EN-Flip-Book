@@ -10,7 +10,7 @@
 <head>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="../../turn.min.js"></script>
-
+<script type="text/javascript" src="../../EN-Flip-Book/Turn.js-4th-release-master/lib/turn.js"></script>
 <style type="text/css">
 body{
 	background:#ccc;
@@ -23,6 +23,51 @@ body{
 	background-color:#ccc;
 	background-size:100% 100%;
 }
+#magazine .hard {
+	background-color:#ccc;
+	background-size:100% 100%;
+}
+#slider {
+    -webkit-appearance: none; /* บังคับปิดสไตล์ดั้งเดิมของเบราว์เซอร์ */
+    appearance: none;
+    
+    width: 40%;            /* ทำให้สไลเดอร์กว้างขึ้น (ปรับ % ได้ตามต้องการ) */
+    max-width: 800px;      /* กำหนดความกว้างสูงสุดไม่ให้ล้นจอเกินไป */
+    height: 12px;          /* ความหนาของเส้นแถบสไลเดอร์ */
+    background: #e0e0e0;   /* สีพื้นหลังของแถบ */
+    border-radius: 10px;   /* ทำขอบให้มนๆ ดูสวยขึ้น */
+    
+    display: block;        /* เปลี่ยนเป็น block เพื่อให้ใช้คำสั่งจัดกลางได้ */
+	margin-bottom: auto;
+	margin: auto;           /* จัดกลางแนวนอน */
+    outline: none;
+}
+#slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    
+    width: 40px;           /* ปรับความกว้างของปุ่มเลื่อนให้กว้างขึ้น */
+    height: 14px;          /* ปรับความสูงของปุ่มเลื่อน */
+    background: #939393;   /* สีของปุ่มเลื่อน  */
+    cursor: pointer;       /* เปลี่ยนเคอร์เซอร์เป็นรูปมือเมื่อชี้ */
+    border-radius: 5px;    /* ปรับขอบปุ่มเลื่อนให้มน */
+}
+/*สำหรับ Firefox */
+#slider::-moz-range-thumb {
+    width: 40px;           /* ปรับความกว้างของปุ่มเลื่อนให้กว้างขึ้น */
+    height: 14px;          /* ปรับความสูงของปุ่มเลื่อน */
+    background: #939393;   /* สีของปุ่มเลื่อน */
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;          /* เอาเส้นขอบดั้งเดิมของ Firefox ออก */
+}
+/*เปลี่ยนสีปุ่มเลื่อนเวลาเอาเมาส์ไปวาง (Hover) */
+#slider::-webkit-slider-thumb:hover {
+    background: #eb0000;
+}
+#slider::-moz-range-thumb:hover {
+    background: #eb0000;
+}
 .page-blank { background-image: url(bookmark/blank.png); }
 .page-cover { background-image: url(bookmark/63_cover.png); }
 .page-month { background-image: url(bookmark/month.png); }
@@ -34,8 +79,13 @@ body{
 
 <div id="magazine">
 
+	<div class="hard own-size" 
+     style="width:596px; height:772px; 
+            background-image:url(bookmark/63_cover.png); 
+            background-size:100% 100%;">
+	</div>
+
 	<!-- Cover -->
-	<div class="page-cover"></div>
 	<div class="page-blank"></div>
 
 	<!-- Table of Contents -->
@@ -219,10 +269,15 @@ body{
 	<div style="background-image:url(pages/dec/63_dec_2_page_4.png);"></div>
 
 	<!-- Back Cover -->
-	<div class="page-back"></div>
+	<div class="page-blank"></div>
+    <div class="hard own-size" 
+     style="width:596px; height:772px; 
+            background-image:url(bookmark/back_cover.png); 
+            background-size:100% 100%;">
+	</div>
 
 </div>
-
+<input type="range" min="1" max="96" value="1" id="slider">
 <script type="text/javascript">
 
 	$(window).ready(function() {
@@ -249,7 +304,13 @@ body{
 			
 	});
 
-	
+  	$('#slider').on('input', function() {
+    	$('#magazine').turn('page', $(this).val());
+  	});
+  	$('#magazine').bind('turned', function(e, page) {
+    	$('#slider').val(page);
+  	});
+
 </script>
 
 </script>
