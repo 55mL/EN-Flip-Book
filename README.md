@@ -5,7 +5,7 @@
 
 ## Author
 
-| ชื่อ | GitHub |
+| Name | Contact |
 |---|---|
 | ปัณฑารีย์ สมนึกในธรรม | pandaree.so@kkumail.com |
 | 55mL | [@55mL](https://github.com/55mL) |
